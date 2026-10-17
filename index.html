@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SharkSMP Custom Base Building Services</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        shark: {
+                            50: '#e6fafd',
+                            100: '#ccf5fc',
+                            400: '#22d3ee',
+                            500: '#06b6d4',
+                            600: '#0891b2',
+                            800: '#112233',
+                            900: '#0a131d',
+                            950: '#050a10',
+                        },
+                        emeraldNeon: '#10b981',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #050a10;
+            color: #f3f4f6;
+            overflow-x: hidden;
+        }
+
+        .glass-card {
+            background: rgba(17, 34, 51, 0.65);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(34, 211, 238, 0.15);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(34, 211, 238, 0.4);
+        }
+
+        .grid-bg {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #050a10;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #0891b2;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #22d3ee;
+        }
+    </style>
+</head>
+<body class="grid-bg min-h-screen flex flex-col justify-between selection:bg-shark-500 selection:text-black">
+
+    <!-- Toast Notification Box -->
+    <div id="toast" class="fixed top-5 right-5 z-50 transform translate-y-[-150%] opacity-0 transition-all duration-300 flex items-center gap-3 bg-shark-800 border border-shark-400 text-white px-5 py-3 rounded-xl shadow-2xl">
+        <i class="fa-solid fa-circle-check text-shark-400 text-xl"></i>
+        <span id="toast-msg" class="font-medium text-sm">Action successful!</span>
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-40 bg-shark-950/80 backdrop-blur-md border-b border-shark-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-shark-600 to-shark-400 flex items-center justify-center text-black font-extrabold text-xl shadow-lg group-hover:scale-105 transition-transform">
+                    <i class="fa-solid fa-fish-fins"></i>
+                </div>
+                <div>
+                    <span class="text-xl font-black tracking-wider text-white">SHARK<span class="text-shark-400">BUILDERS</span></span>
+                    <span class="block text-xs text-gray-400 font-medium">sharksmp.net base builds</span>
+                </div>
+            </a>
+
+            <!-- Actions Header -->
+            <div class="flex items-center gap-3">
+                <!-- IP Copy Button -->
+                <button onclick="copyIP()" class="flex items-center gap-2 bg-shark-900/90 border border-shark-600/40 hover:border-shark-400 text-gray-200 text-xs px-3.5 py-2 rounded-lg font-mono transition-all">
+                    <span class="w-2 h-2 rounded-full bg-emeraldNeon animate-pulse"></span>
+                    <span>sharksmp.net</span>
+                    <i class="fa-regular fa-copy text-shark-400 ml-1"></i>
+                </button>
+
+                <!-- Discord CTA -->
+                <a href="https://discord.gg/7WysKDT8fR" target="_blank" rel="noopener noreferrer" class="bg-gradient-to-r from-shark-500 to-shark-600 hover:from-shark-400 hover:to-shark-500 text-black font-bold text-sm px-5 py-2.5 rounded-xl flex items-center gap-2 transition-all shadow-md active:scale-95">
+                    <i class="fa-brands fa-discord text-base"></i>
+                    <span>Order on Discord</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative pt-12 pb-12 lg:pt-16 lg:pb-16 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            
+            <!-- Server Badge -->
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-shark-900/90 border border-shark-500/30 text-shark-400 text-xs font-semibold tracking-wide uppercase mb-6">
+                <i class="fa-solid fa-cube text-emeraldNeon"></i>
+                <span>SharkSMP Base Building Service</span>
+            </div>
+
+            <!-- Main Heading -->
+            <h1 class="text-4xl sm:text-6xl font-black text-white tracking-tight leading-tight max-w-3xl mx-auto mb-4">
+                Custom Bases for <span class="bg-gradient-to-r from-shark-400 via-teal-300 to-emeraldNeon bg-clip-text text-transparent">SharkSMP</span>
+            </h1>
+
+            <p class="text-gray-400 text-base sm:text-lg max-w-xl mx-auto font-normal mb-8">
+                Pick a base size, place your order on Discord, and pay using in-game cash on <span class="text-shark-400 font-mono">sharksmp.net</span>.
+            </p>
+
+            <div class="flex items-center justify-center gap-4">
+                <button onclick="copyIP()" class="bg-shark-900 hover:bg-shark-800 border border-shark-600/50 text-white font-bold px-6 py-3 rounded-xl text-sm transition-all flex items-center gap-2">
+                    <i class="fa-solid fa-server text-shark-400"></i>
+                    <span>IP: <span class="font-mono text-shark-400">sharksmp.net</span></span>
+                    <i class="fa-regular fa-copy text-xs text-gray-400 ml-1"></i>
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Pricing Tiers Section -->
+    <section id="pricing" class="py-8 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- Tier 1: Small -->
+                <div class="glass-card rounded-2xl p-6 flex flex-col justify-between hover:-translate-y-1 transition-all duration-300">
+                    <div>
+                        <div class="text-xs font-bold text-shark-400 uppercase tracking-wider mb-2">Tier 1</div>
+                        <h3 class="text-2xl font-bold text-white mb-2">Small Base</h3>
+                        
+                        <div class="mb-6">
+                            <span class="text-3xl font-extrabold text-white">400k</span>
+                            <span class="text-xs text-gray-400">/ in-game</span>
+                        </div>
+
+                        <div class="border-t border-shark-800/80 pt-4 mb-8">
+                            <p class="text-xs font-semibold text-gray-400 uppercase mb-3">Includes:</p>
+                            <ul class="space-y-3 text-sm text-gray-200">
+                                <li class="flex items-center gap-2.5">
+                                    <i class="fa-solid fa-check text-shark-400"></i>
+                                    <span>small farms</span>
+                                </li>
+                                <li class="flex items-center gap-2.5">
+                                    <i class="fa-solid fa-check text-shark-400"></i>
+                                    <span>small storage</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <a href="https://discord.gg/7WysKDT8fR" target="_blank" class="w-full bg-shark-900 hover:bg-shark-400 hover:text-black border border-shark-500/30 text-white font-bold py-3 rounded-xl text-xs text-center transition-all flex items-center justify-center gap-2">
+                        <span>Order Small Base</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </a>
+                </div>
+
+                <!-- Tier 2: Medium -->
+                <div class="glass-card rounded-2xl p-6 flex flex-col justify-between hover:-translate-y-1 transition-all duration-300">
+                    <div>
+                        <div class="text-xs font-bold text-shark-400 uppercase tracking-wider mb-2">Tier 2</div>
+                        <h3 class="text-2xl font-bold text-white mb-2">Medium Base</h3>
+                        
+                        <div class="mb-6">
+                            <span class="text-3xl font-extrabold text-white">800k</span>
+                            <span class="text-xs text-gray-400">/ in-game</span>
+                        </div>
+
+                        <div class="border-t border-shark-800/80 pt-4 mb-8">
+                            <p class="text-xs font-semibold text-gray-400 uppercase mb-3">Includes:</p>
+                            <ul class="space-y-3 text-sm text-gray-200">
+                                <li class="flex items-center gap-2.5">
+                                    <i class="fa-solid fa-check text-shark-400"></i>
+                                    <span>starter farms</span>
+                                </li>
+                                <li class="flex items-center gap-2.5">
+                                    <i class="fa-solid fa-check text-shark-400"></i>
+                                    <span>starter storage</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <a href="https://discord.gg/7WysKDT8fR" target="_blank" class="w-full bg-shark-900 hover:bg-shark-400 hover:text-black border border-shark-500/30 text-white font-bold py-3 rounded-xl text-xs text-center transition-all flex items-center justify-center gap-2">
+                        <span>Order Medium Base</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </a>
+                </div>
+
+                <!-- Tier 3: Large -->
+                <div class="glass-card rounded-2xl p-6 flex flex-col justify-between hover:-translate-y-1 transition-all duration-300 border-shark-400">
+                    <div>
+                        <div class="text-xs font-bold text-shark-400 uppercase tracking-wider mb-2">Tier 3</div>
+                        <h3 class="text-2xl font-bold text-white mb-2">Large Base</h3>
+                        
+                        <div class="mb-6">
+                            <span class="text-3xl font-extrabold text-white">1.2m</span>
+                            <span class="text-xs text-gray-400">/ in-game</span>
+                        </div>
+
+                        <div class="border-t border-shark-800/80 pt-4 mb-8">
+                            <p class="text-xs font-semibold text-gray-400 uppercase mb-3">Includes:</p>
+                            <ul class="space-y-3 text-sm text-gray-200">
+                                <li class="flex items-center gap-2.5">
+                                    <i class="fa-solid fa-check text-emeraldNeon"></i>
+                                    <span>medium farms</span>
+                                </li>
+                                <li class="flex items-center gap-2.5">
+                                    <i class="fa-solid fa-check text-emeraldNeon"></i>
+                                    <span>medium storage</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <a href="https://discord.gg/7WysKDT8fR" target="_blank" class="w-full bg-shark-400 hover:bg-shark-300 text-black font-extrabold py-3 rounded-xl text-xs text-center transition-all flex items-center justify-center gap-2 shadow-md">
+                        <span>Order Large Base</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </a>
+                </div>
+
+                <!-- Tier 4: XL -->
+                <div class="glass-card rounded-2xl p-6 flex flex-col justify-between hover:-translate-y-1 transition-all duration-300">
+                    <div>
+                        <div class="text-xs font-bold text-shark-400 uppercase tracking-wider mb-2">Tier 4</div>
+                        <h3 class="text-2xl font-bold text-white mb-2">XL Base</h3>
+                        
+                        <div class="mb-6">
+                            <span class="text-3xl font-extrabold text-white">2m</span>
+                            <span class="text-xs text-gray-400">/ in-game</span>
+                        </div>
+
+                        <div class="border-t border-shark-800/80 pt-4 mb-8">
+                            <p class="text-xs font-semibold text-gray-400 uppercase mb-3">Includes:</p>
+                            <ul class="space-y-3 text-sm text-gray-200">
+                                <li class="flex items-center gap-2.5">
+                                    <i class="fa-solid fa-check text-shark-400"></i>
+                                    <span>big farms</span>
+                                </li>
+                                <li class="flex items-center gap-2.5">
+                                    <i class="fa-solid fa-check text-shark-400"></i>
+                                    <span>big storage</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <a href="https://discord.gg/7WysKDT8fR" target="_blank" class="w-full bg-shark-900 hover:bg-shark-400 hover:text-black border border-shark-500/30 text-white font-bold py-3 rounded-xl text-xs text-center transition-all flex items-center justify-center gap-2">
+                        <span>Order XL Base</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Call To Action Banner -->
+    <section class="py-16">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-card rounded-3xl p-8 sm:p-10 text-center border-shark-400/40">
+                <div class="max-w-2xl mx-auto space-y-6">
+                    <h2 class="text-3xl font-black text-white">Ready to place an order?</h2>
+                    <p class="text-gray-300 text-sm">Join our Discord server to get started on your build.</p>
+                    
+                    <div class="flex justify-center pt-2">
+                        <a href="https://discord.gg/7WysKDT8fR" target="_blank" class="bg-gradient-to-r from-shark-400 to-emeraldNeon text-black font-extrabold px-8 py-3.5 rounded-xl text-sm transition-all hover:scale-105 flex items-center gap-3">
+                            <i class="fa-brands fa-discord text-lg"></i>
+                            <span>https://discord.gg/7WysKDT8fR</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-shark-950 border-t border-shark-900 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-400">
+            <div class="flex items-center gap-2">
+                <span class="font-bold text-white">SharkSMP Base Building</span>
+                <span>• IP: sharksmp.net</span>
+            </div>
+
+            <a href="https://discord.gg/7WysKDT8fR" target="_blank" class="hover:text-shark-400 transition-colors flex items-center gap-1.5">
+                <i class="fa-brands fa-discord"></i> discord.gg/7WysKDT8fR
+            </a>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Copy Server IP
+        function copyIP() {
+            const ip = "sharksmp.net";
+            const tempInput = document.createElement("input");
+            tempInput.value = ip;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            
+            try {
+                document.execCommand("copy");
+                showToast("Server IP (sharksmp.net) copied!");
+            } catch (err) {
+                showToast("Server IP: sharksmp.net");
+            }
+            
+            document.body.removeChild(tempInput);
+        }
+
+        // Toast Notification Function
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-msg');
+            toastMsg.textContent = message;
+
+            toast.classList.remove('translate-y-[-150%]', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-[-150%]', 'opacity-0');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
